@@ -23,7 +23,8 @@ For each iteration (up to the specified count):
    ```bash
    claude --permission-mode acceptEdits -p "@<prd-path> @<progress-path> \
    1. Find the highest-priority feature to work on and work only on that feature. \
-   2. Check that the tests pass. \
+   This should be the one YOU decide had the highest priority - not nesessarily the first in the list.
+   2. Check that the tests pass. Use other appropriate tools - If this is a flutter project run flutter analyze, and if this is a react project run some other linter. \
    3. Update the PRD (<prd-path>) with the work that was done. \
    4. Append your progress to the <progress-path> file. \
    ONLY WORK ON A SINGLE FEATURE \

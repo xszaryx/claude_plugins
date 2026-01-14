@@ -17,9 +17,9 @@ Arguments provided: $ARGUMENTS
 ## Execution Steps
 
 1. **Read PRD**: Load the PRD JSON file and parse the features/tasks
-2. **Find highest priority**: Identify the highest-priority incomplete feature (status: "pending" or "in_progress")
+2. **Find highest priority**: Identify the highest-priority incomplete feature (status: "pending" or "in_progress"). This should be the one YOU decide had the highest priority - not nesessarily the first in the list.
 3. **Implement the feature**: Work ONLY on that single feature
-4. **Run tests**: Verify the implementation by running tests
+4. **Run tests**: Verify the implementation by running tests. Use other appropriate tools - If this is a flutter project run flutter analyze, and if this is a react project run some other linter.
 5. **Update PRD**: Mark the feature as "completed" in the PRD JSON file
 6. **Log progress**: Append a summary of what was done to the progress file
 
