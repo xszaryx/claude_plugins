@@ -1,0 +1,9 @@
+{
+  "name": "ralph-dev",
+  "version": "0.1.0",
+  "description": "PRD-driven feature development with fresh context isolation per task",
+  "author": {
+    "name": "Mariusz"
+  },
+  "keywords": ["prd", "feature-development", "workflow", "automation"]
+}

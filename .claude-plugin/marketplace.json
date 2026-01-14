@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "local-plugins",
+  "version": "1.0.0",
+  "description": "Local development plugins",
+  "owner": {
+    "name": "Mariusz",
+    "email": "local@example.com"
+  },
+  "plugins": [
+    {
+      "name": "ralph-dev",
+      "description": "PRD-driven feature development with fresh context isolation per task",
+      "version": "0.1.0",
+      "source": "./ralph-dev",
+      "category": "productivity",
+      "author": {
+        "name": "Mariusz"
+      }
+    }
+  ]
+}
