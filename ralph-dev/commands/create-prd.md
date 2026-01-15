@@ -4,7 +4,7 @@ argument-hint: <markdown-prd-path>
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Task
 ---
 
-Convert a markdown PRD into a structured JSON PRD with atomic tasks for ralph-dev workflow.
+Convert a markdown PRD into a structured JSON PRD with atomic requirements for ralph-dev workflow.
 
 ## Configuration
 
@@ -48,41 +48,73 @@ If `.ralph/PRD.json` exists:
 
 ### 4. Generate JSON PRD
 
-Create `.ralph/PRD.json` with structure:
+Create `.ralph/PRD.json` as an **array of requirements**:
 
 ```json
+[
+  {
+    "category": "functional",
+    "description": "Brief feature statement describing what should happen",
+    "steps": [
+      "Observable outcome that proves it works",
+      "Another observable behavior",
+      "Third verification point"
+    ],
+    "passes": false
+  }
+]
+```
+
+**Requirement Format:**
+- `category`: `"functional"` or `"non-functional"`
+- `description`: Brief but complete feature statement (not artificially short)
+- `steps`: 2-4 observable outcomes/behaviors that prove it works (user story style)
+- `passes`: `false` initially, set to `true` when implemented AND tests pass
+
+**Requirement Guidelines:**
+- Each requirement = ONE atomic, testable behavior
+- NOT big tasks with sub-tasks
+- Each should be independently verifiable
+- Steps describe WHAT should be true, not HOW to verify
+- Group related behaviors logically (e.g., all filter chip behaviors together)
+
+**Example Requirements:**
+```json
 {
-  "name": "<project/feature name>",
-  "version": "1.0.0",
-  "description": "<brief description>",
-  "source": "<markdown PRD path>",
-  "created": "<ISO timestamp>",
-  "features": [
-    {
-      "id": "feature-1",
-      "name": "<short name>",
-      "priority": 1,
-      "status": "pending",
-      "description": "<what to accomplish>",
-      "acceptance_criteria": ["<criterion>"]
-    }
-  ]
+  "category": "functional",
+  "description": "Combined leaderboard is the default view when opening Leaderboards screen",
+  "steps": [
+    "'All Games' filter chip is selected by default",
+    "Combined scores from both games are displayed",
+    "Trophy icon appears next to each score"
+  ],
+  "passes": false
+},
+{
+  "category": "functional",
+  "description": "Tapping a filter chip switches the leaderboard view",
+  "steps": [
+    "Tapping 'Quote Falls' shows only Quote Falls scores",
+    "Tapping 'Quote Breaker' shows only Quote Breaker scores",
+    "Tapping 'All Games' shows combined scores"
+  ],
+  "passes": false
+},
+{
+  "category": "non-functional",
+  "description": "Combined leaderboard loads within 3 seconds",
+  "steps": [
+    "Initial load completes in under 3 seconds",
+    "Loading indicator shows during fetch",
+    "No visible lag when switching filters"
+  ],
+  "passes": false
 }
 ```
 
-**Task Guidelines:**
-- ~30 minutes per task (small, atomic)
-- One clear objective per task
-- Independently testable
-- Priority 1-10 (1 = highest, do first)
-- Order by logical dependency
-
-**Task Categories:**
-1. Setup/scaffolding tasks
-2. Core implementation tasks
-3. Integration tasks
-4. Testing tasks
-5. Polish/edge case tasks
+**What `passes` means:**
+- `false`: Not yet implemented, or implementation doesn't pass tests
+- `true`: Implemented AND passes automated checks (flutter analyze, unit tests, linter)
 
 ### 5. Create Progress File
 
@@ -98,8 +130,7 @@ Create `.ralph/progress.txt`:
 ### 6. Report Summary
 
 Output:
-- Number of tasks generated
-- Task breakdown by category
+- Number of requirements generated (functional vs non-functional)
 - Suggested next step: `/ralph-dev:step` or `/ralph-dev:run`
 
 ## Example Usage

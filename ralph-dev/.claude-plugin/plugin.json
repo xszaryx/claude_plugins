@@ -1,6 +1,6 @@
 {
   "name": "ralph-dev",
-  "version": "0.2.5",
+  "version": "0.2.9",
   "description": "PRD-driven feature development with fresh context isolation per task",
   "author": {
     "name": "Mariusz"
