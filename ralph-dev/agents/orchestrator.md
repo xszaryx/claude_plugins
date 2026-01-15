@@ -75,8 +75,13 @@ You are the PRD workflow orchestrator for the ralph-dev plugin. Your role is to 
 
    b. Run this bash command in FOREGROUND (NOT background):
    ```bash
-   claude --permission-mode acceptEdits -p "Read the PRD at <prd-path> and the progress at <progress-path>. Then: 1. Find a requirement where passes: false (YOU decide priority, not just first in list). 2. Implement ONLY that single requirement, ensuring all steps are satisfied. 3. Run appropriate tests (flutter analyze for Flutter, linter for React, etc). 4. Set passes: true in the PRD JSON ONLY if tests pass. 5. Append progress to <progress-path> with timestamp. If ALL requirements have passes: true, output <promise>COMPLETE</promise> at the end."
+   claude --permission-mode acceptEdits -p "/ralph-dev:step --prd <prd-path> --progress <progress-path>"
    ```
+
+   **CRITICAL**: When calling Bash tool:
+   - Do NOT set `run_in_background: true`
+   - Set `timeout: 600000` (10 minutes)
+   - Output will stream to user in real-time
 
    c. Wait for command to complete (do NOT run in background)
 

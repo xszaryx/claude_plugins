@@ -28,16 +28,23 @@ Output: `Starting iteration X of Y...`
 Use the Read tool to check current PRD.json state. Count requirements where `passes: true` vs `passes: false`.
 
 ### Step 3: Run Fresh Claude Process
-Execute in FOREGROUND (NOT background) with a timeout:
+Execute the step command in a fresh Claude process:
 
 ```bash
-claude --permission-mode acceptEdits -p "Read the PRD at <prd-path> and the progress at <progress-path>. Then: 1. Find a requirement where passes: false (YOU decide priority, not just first in list). 2. Implement ONLY that single requirement, ensuring all steps are satisfied. 3. Run appropriate tests (flutter analyze for Flutter, linter for React, etc). 4. Set passes: true in the PRD JSON ONLY if tests pass. 5. Append progress to <progress-path> with timestamp. If ALL requirements have passes: true, output <promise>COMPLETE</promise> at the end."
+claude --permission-mode acceptEdits -p "/ralph-dev:step --prd <prd-path> --progress <progress-path>"
 ```
 
-**IMPORTANT**:
-- Do NOT use `@` file syntax - it may not work reliably on Windows
-- Do NOT run in background - run in foreground so output streams to user
-- Set a reasonable timeout (e.g., 10 minutes per iteration)
+**CRITICAL - MUST RUN IN FOREGROUND:**
+When calling the Bash tool, you MUST:
+- NOT set `run_in_background: true`
+- Set `timeout: 600000` (10 minutes) to allow complex implementations
+- The Bash tool will stream output to the user in real-time when running in foreground
+
+**Why use /ralph-dev:step:**
+- All the implementation logic is already there
+- Consistent behavior between manual and automated runs
+- Easier to maintain one command definition
+- Plugin access is inherited from user's installed plugins
 
 ### Step 4: Check Output
 After the command completes:
