@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "description": "Local development plugins",
   "owner": {
-    "name": "Mariusz",
-    "email": "local@example.com"
+    "name": "Mariusz Szynalik",
+    "email": "contact@unriddle.games"
   },
   "plugins": [
     {
@@ -15,7 +15,7 @@
       "source": "./ralph-dev",
       "category": "productivity",
       "author": {
-        "name": "Mariusz"
+        "name": "Mariusz Szynalik"
       }
     }
   ]

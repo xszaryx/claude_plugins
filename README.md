@@ -13,12 +13,7 @@ A local marketplace for custom Claude Code plugins.
 ### Step 1: Clone this repository
 
 ```bash
-git clone <repo-url> D:/_projects/_plugins
-```
-
-Or for macOS:
-```bash
-git clone <repo-url> ~/projects/_plugins
+git clone <repo-url> c:/path/to/your/plugins
 ```
 
 ### Step 2: Register the marketplace
@@ -27,23 +22,23 @@ Add the marketplace entry to your Claude Code configuration.
 
 #### Windows
 
-Edit `C:\Users\mariu\.claude\plugins\known_marketplaces.json` and add:
+Edit `C:\Users\<username>\.claude\plugins\known_marketplaces.json` and add:
 
 ```json
 {
   "local-plugins": {
     "source": {
       "source": "directory",
-      "path": "D:/_projects/_plugins"
+      "path": "c:/path/to/your/plugins"
     },
-    "installLocation": "D:/_projects/_plugins",
+    "installLocation": "c:/path/to/your/plugins",
     "lastUpdated": "2026-01-14T00:00:00.000Z",
     "autoUpdate": true
   }
 }
 ```
 
-#### macOS
+#### macOS/Linux
 
 Edit `~/.claude/plugins/known_marketplaces.json` and add:
 
@@ -52,16 +47,16 @@ Edit `~/.claude/plugins/known_marketplaces.json` and add:
   "local-plugins": {
     "source": {
       "source": "directory",
-      "path": "/Users/<username>/projects/_plugins"
+      "path": "/path/to/your/plugins"
     },
-    "installLocation": "/Users/<username>/projects/_plugins",
+    "installLocation": "/path/to/your/plugins",
     "lastUpdated": "2026-01-14T00:00:00.000Z",
     "autoUpdate": true
   }
 }
 ```
 
-Replace `<username>` with your macOS username.
+Replace `<username>` and `/path/to/your/plugins` with your actual values.
 
 ### Step 3: Restart Claude Code
 

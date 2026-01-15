@@ -3,7 +3,8 @@
   "version": "0.2.10",
   "description": "PRD-driven feature development with fresh context isolation per task",
   "author": {
-    "name": "Mariusz"
+    "name": "Mariusz Szynalik",
+    "email": "contact@unriddle.games"
   },
   "keywords": ["prd", "feature-development", "workflow", "automation"]
 }
