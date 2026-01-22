@@ -23,6 +23,18 @@ Add the marketplace entry to your Claude Code configuration.
 #### Windows
 
 Edit `C:\Users\<username>\.claude\plugins\known_marketplaces.json` and add:
+```json
+{
+  "local-plugins": {
+    "source": {
+      "source": "directory",
+      "path": "D:\\_projects\\_tools\\claude_plugins"
+    },
+    "installLocation": "D:\\_projects\\_tools\\claude_plugins",
+    "lastUpdated": "2026-01-19T07:22:12.506Z"
+  }
+}
+```
 
 ```json
 {
