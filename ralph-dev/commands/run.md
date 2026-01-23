@@ -1,10 +1,10 @@
 ---
-description: Run multiple PRD steps sequentially with fresh context isolation
+description: Run multiple PRD steps sequentially using isolated agents with progress monitoring
 argument-hint: [count] [--prd <path>] [--progress <path>]
-allowed-tools: Bash, Read
+allowed-tools: Task, Read
 ---
 
-Orchestrate multiple PRD development iterations, each in a fresh Claude context with full visibility.
+Orchestrate multiple PRD development iterations using the step-executor agent with progress monitoring.
 
 ## Configuration
 
@@ -15,67 +15,65 @@ Parse arguments:
 
 Arguments provided: $ARGUMENTS
 
-## Execution Process
+## Before Starting
 
-**CRITICAL: Run iterations SEQUENTIALLY in FOREGROUND for full visibility.**
+1. Read the PRD.json to understand current state
+2. Count requirements where `passes: true` vs `passes: false`
+3. Report: "Starting X iterations. PRD has Y/Z requirements passing."
+
+## Execution Loop
 
 For each iteration (1 to count):
 
-### Step 1: Announce Iteration
+### Step 1: Announce
 Output: `Starting iteration X of Y...`
 
-### Step 2: Read Current PRD State
-Use the Read tool to check current PRD.json state. Count requirements where `passes: true` vs `passes: false`.
+### Step 2: Spawn Step-Executor Agent
 
-### Step 3: Run Fresh Claude Process
-Execute the step command in a fresh Claude process:
+Use the Task tool to spawn the step-executor agent in **foreground** with auto-approve:
 
-```bash
-claude --permission-mode acceptEdits -p "/ralph-dev:step --prd <prd-path> --progress <progress-path>"
+```
+Task tool parameters:
+- subagent_type: "ralph-dev:step-executor"
+- prompt: "Execute one PRD step. PRD path: <prd-path>, Progress path: <progress-path>"
+- mode: "bypassPermissions"
+- description: "PRD step X"
 ```
 
-**CRITICAL - MUST RUN IN FOREGROUND:**
-When calling the Bash tool, you MUST:
-- NOT set `run_in_background: true`
-- Set `timeout: 600000` (10 minutes) to allow complex implementations
-- The Bash tool will stream output to the user in real-time when running in foreground
+**Note**: No `run_in_background` - the agent runs in foreground so output is visible in real-time. The `mode: "bypassPermissions"` auto-approves edits without manual intervention.
 
-**Why use /ralph-dev:step:**
-- All the implementation logic is already there
-- Consistent behavior between manual and automated runs
-- Easier to maintain one command definition
-- Plugin access is inherited from user's installed plugins
+Wait for the agent to complete. The output will stream to the user as it works.
 
-### Step 4: Check Output
-After the command completes:
-- If output contains `<promise>COMPLETE</promise>`: Stop and report "PRD COMPLETE"
-- If command failed/timed out: Report error and ask user whether to continue
+### Step 3: Check Result
+
+After the agent completes:
+- If output contains `<promise>COMPLETE</promise>`: Stop iterations and report "PRD COMPLETE"
+- If agent failed: Report error and ask user whether to continue
 - Otherwise: Continue to next iteration
 
-### Step 5: Report Iteration Result
-After each iteration, briefly summarize:
-- Which feature was worked on (read from progress.txt)
-- Success/failure status
-- Remaining iterations
+### Step 4: Report Iteration Result
+
+After each iteration:
+- Read progress.txt to see what was done
+- Briefly summarize: which requirement, pass/fail, remaining iterations
 
 ## Error Handling
 
-- If a Claude process fails, report the error clearly
+- If an agent fails, report the error clearly
 - Ask user: "Iteration X failed. Continue with remaining iterations? (Y/N)"
-- If timeout occurs, kill the process and report
+- If timeout occurs, report and ask user
 
 ## Final Summary
 
 After all iterations (or early completion):
 - Total iterations run
-- Features completed in this session
+- Requirements completed in this session
 - Whether PRD is fully complete
-- Suggest next steps
+- Suggest next steps if incomplete
 
-## Important Notes
+## Key Benefits of This Approach
 
-- Run FOREGROUND, not background - user needs to see progress
-- SEQUENTIAL execution - wait for each to complete before next
-- Each iteration gets FRESH context (new Claude process)
-- Use `--permission-mode acceptEdits` for auto-accept
-- Stop immediately on `<promise>COMPLETE</promise>`
+- **Fresh context**: Each agent invocation gets isolated context
+- **Real-time visibility**: Foreground execution shows output as it happens
+- **Opus model**: Step-executor uses Opus for high-quality implementations
+- **Auto-approve**: bypassPermissions mode means no manual approval needed
