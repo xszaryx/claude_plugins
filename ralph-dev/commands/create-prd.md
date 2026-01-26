@@ -68,35 +68,40 @@ Create `.ralph/PRD.json` as an **array of requirements**:
 **Requirement Format:**
 - `category`: `"functional"` or `"non-functional"`
 - `description`: Brief but complete feature statement (not artificially short)
-- `steps`: 2-4 observable outcomes/behaviors that prove it works (user story style)
+- `steps`: 3-6 observable outcomes/behaviors that prove it works (user story style)
 - `passes`: `false` initially, set to `true` when implemented AND tests pass
 
 **Requirement Guidelines:**
-- Each requirement = ONE atomic, testable behavior
-- NOT big tasks with sub-tasks
-- Each should be independently verifiable
+- Each requirement = ONE logical feature/section that groups related behaviors
+- Aim for 10-25 requirements for a typical PRD (not 50-100)
+- Group by: functional area, component, user flow, or technical layer
+- Steps contain the related atomic behaviors/outcomes within that section (3-6 steps per requirement)
 - Steps describe WHAT should be true, not HOW to verify
-- Group related behaviors logically (e.g., all filter chip behaviors together)
+- Each requirement should be independently verifiable as a unit
 
 **Example Requirements:**
 ```json
 {
   "category": "functional",
-  "description": "Combined leaderboard is the default view when opening Leaderboards screen",
+  "description": "Filter chip functionality allows switching between leaderboard views",
   "steps": [
-    "'All Games' filter chip is selected by default",
-    "Combined scores from both games are displayed",
-    "Trophy icon appears next to each score"
+    "'All Games' filter chip is selected by default on screen open",
+    "Tapping 'Quote Falls' shows only Quote Falls scores",
+    "Tapping 'Quote Breaker' shows only Quote Breaker scores",
+    "Tapping 'All Games' shows combined scores with trophy icons",
+    "Selected chip has visual distinction from unselected chips"
   ],
   "passes": false
 },
 {
   "category": "functional",
-  "description": "Tapping a filter chip switches the leaderboard view",
+  "description": "Design tokens are fully defined and accessible",
   "steps": [
-    "Tapping 'Quote Falls' shows only Quote Falls scores",
-    "Tapping 'Quote Breaker' shows only Quote Breaker scores",
-    "Tapping 'All Games' shows combined scores"
+    "Spacing scale exists with values xs(4), sm(8), md(16), lg(24), xl(32), xxl(48), xxxl(64)",
+    "Border radius scale exists with values sm(4), md(8), lg(16), full(999)",
+    "Animation duration scale exists with values micro(100ms), small(200ms), medium(300ms), large(400ms)",
+    "All token values are accessible via respective classes/constants",
+    "Tokens can be used in widget padding, margins, and decorations"
   ],
   "passes": false
 },
