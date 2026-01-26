@@ -159,8 +159,8 @@ Create `.ralph/PRD.json` as an **array of requirements**:
 ```
 
 **What `passes` means:**
-- `false`: Not yet implemented, or implementation doesn't pass tests
-- `true`: Implemented AND passes automated checks (flutter analyze, unit tests, linter)
+- `false`: Not yet implemented, or implementation doesn't pass verification
+- `true`: Implemented AND passes automated checks (flutter analyze, linter, minimal essential tests)
 
 ### Step 6: Create Empty Progress File
 Create `.ralph/progress.txt` with header:
